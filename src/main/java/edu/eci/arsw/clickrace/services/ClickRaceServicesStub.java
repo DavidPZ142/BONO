@@ -31,6 +31,9 @@ public class ClickRaceServicesStub implements ClickRaceServices {
     
     @Override
     public void registerPlayerToRace(int racenum, RaceParticipant rp) throws ServicesException{
+        if (racesData.get(racenum).size() > 4){
+            throw new ServicesException("Ya hay 5 jugadores");
+        }
         if (!racesData.containsKey(racenum)){
             throw new ServicesException("Race "+racenum+" not registered in the server.");
         }

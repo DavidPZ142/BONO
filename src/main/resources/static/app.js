@@ -21,7 +21,7 @@ movex = function(){
         mycarxpos+=10;
         paintCars();
         stompClient.send("/topic/car"+mycar.number, {}, JSON.stringify({car:mycar.number,xpos:mycarxpos}));
-        if(mycarxpos > 20){
+        if(mycarxpos > 630){
             registerWinner()
             getWinner()
 
@@ -69,7 +69,7 @@ registerWinner = function (){
         contentType: "application/json"
     }).then(
         function (){
-            alert("winner")
+            console.log("Has ganado")
         },
         function (err){
             alert("Ya hay winner")
@@ -107,6 +107,7 @@ initAndRegisterInServer = function(){
             },
             function(err){
                 alert("err:"+err.responseText);
+
             }
     );
 
@@ -140,6 +141,7 @@ loadCompetitorsFromServer = function () {
 };
 
 setWinner = function (data){
+    alert("winner" + data)
     $('#winner').html(data)
 }
 
@@ -170,7 +172,7 @@ function connectAndSubscribeToCompetitors() {
              changeMove();
         })
         stompClient.subscribe("/topic/winner",function (data) {
-            console.log("en el topic", data.body)
+
             setWinner(data.body);
 
         })

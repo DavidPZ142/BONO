@@ -5,7 +5,6 @@
  */
 package edu.eci.arsw.clickrace.controllers;
 
-import com.sun.org.apache.regexp.internal.RE;
 import edu.eci.arsw.clickrace.model.RaceParticipant;
 import edu.eci.arsw.clickrace.services.ClickRaceServices;
 import edu.eci.arsw.clickrace.services.ServicesException;
@@ -31,18 +30,18 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 @RequestMapping(value = "/races")
 public class ClicRaceRESTController {
-    
+
 
     @Autowired
     ClickRaceServices services;
 
     ArrayList<Integer> winners = new ArrayList<>();
-    
-    
-    
+
+
+
     @RequestMapping(path = "/{racenum}/participants",method = RequestMethod.GET)
     public ResponseEntity<?> getRaceParticipantsNums(@PathVariable(name = "racenum") String racenum) {
-        
+
         try {
             return new ResponseEntity<>(services.getRegisteredPlayers(Integer.parseInt(racenum)),HttpStatus.ACCEPTED);
         } catch (ServicesException ex) {
@@ -53,7 +52,7 @@ public class ClicRaceRESTController {
             return new ResponseEntity<>("/{racenum}/ must be an integer value.",HttpStatus.BAD_REQUEST);
         }
     }
-    
+
 
     @RequestMapping(path = "/{racenum}/participants",method = RequestMethod.PUT)
     public ResponseEntity<?> addParticipantNum(@PathVariable(name = "racenum") String racenum,@RequestBody RaceParticipant rp) {
@@ -70,16 +69,19 @@ public class ClicRaceRESTController {
 
     }
 
-    @RequestMapping(path = "/{racenum}/winner",method = RequestMethod.PUT)
-    public ResponseEntity<?> addWinner(@PathVariable(name = "racenum") String racenum,@RequestBody RaceParticipant rp) throws ServicesException {
-        services.registerWinner(Integer.parseInt(racenum), rp);
-        return new ResponseEntity<>(HttpStatus.CREATED);
-    }
 
     @RequestMapping(path = "/{racenum}/winner",method = RequestMethod.GET)
     public ResponseEntity<?> getWinner (@PathVariable(name = "racenum") String racenum) throws ServicesException {
         return new ResponseEntity<>(services.getWinner(Integer.parseInt(racenum)),HttpStatus.ACCEPTED);
     }
+    @RequestMapping(path = "/{racenum}/winner",method = RequestMethod.PUT)
+    public ResponseEntity<?> addWinner(@PathVariable(name = "racenum") String racenum,@RequestBody RaceParticipant rp) throws ServicesException {
+        services.registerWinner(Integer.parseInt(racenum), rp);
+        return new ResponseEntity<>(HttpStatus.CREATED);
+
+    }
+
+
 
 
 
